@@ -1,5 +1,6 @@
-import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
+import "@nomiclabs/hardhat-waffle";
+import "@nomiclabs/hardhat-etherscan";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
 
@@ -10,13 +11,15 @@ import { resolve } from "path";
 
 import { config as dotenvConfig } from "dotenv";
 import { HardhatUserConfig } from "hardhat/config";
-import { NetworkUserConfig } from "hardhat/types";
+import { NetworkUserConfig, HardhatNetworkUserConfig } from "hardhat/types";
 
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
 const chainIds = {
+  ganache: 1337,
   goerli: 5,
-  hardhat: 31337,
+  hardhat: 1337,
+  localhost: 31337,
   kovan: 42,
   mainnet: 1,
   rinkeby: 4,
@@ -24,21 +27,28 @@ const chainIds = {
 };
 
 // Ensure that we have all the environment variables we need.
-const mnemonic: string | undefined = process.env.MNEMONIC;
-if (!mnemonic) {
-  throw new Error("Please set your MNEMONIC in a .env file");
+let mnemonic: string;
+if (!process.env.MNEMONIC) {
+  mnemonic = "test test test test test test test test test test test junk";
+} else {
+  mnemonic = process.env.MNEMONIC;
 }
 
-const infuraApiKey: string | undefined = process.env.INFURA_API_KEY;
-if (!infuraApiKey) {
-  throw new Error("Please set your INFURA_API_KEY in a .env file");
+const forkMainnet = process.env.FORK_MAINNET === "true";
+
+let alchemyApiKey: string | undefined;
+if (forkMainnet && !process.env.ALCHEMY_API_KEY) {
+  throw new Error("Please set process.env.ALCHEMY_API_KEY");
+} else {
+  alchemyApiKey = process.env.ALCHEMY_API_KEY;
 }
 
-function getChainConfig(network: keyof typeof chainIds): NetworkUserConfig {
-  const url: string = "https://" + network + ".infura.io/v3/" + infuraApiKey;
+function createTestnetConfig(network: keyof typeof chainIds): NetworkUserConfig {
+  const url = `https://eth-${network}.alchemyapi.io/v2/${alchemyApiKey}`;
   return {
     accounts: {
       count: 10,
+      initialIndex: 0,
       mnemonic,
       path: "m/44'/60'/0'/0",
     },
@@ -47,6 +57,38 @@ function getChainConfig(network: keyof typeof chainIds): NetworkUserConfig {
   };
 }
 
+function createHardhatConfig(): HardhatNetworkUserConfig {
+  const config = {
+    accounts: {
+      mnemonic,
+    },
+    chainId: chainIds.hardhat,
+  };
+
+  if (forkMainnet) {
+    return Object.assign(config, {
+      forking: {
+        url: `https://eth-mainnet.alchemyapi.io/v2/${alchemyApiKey}`,
+        blockNumber: 13837533,
+      },
+    });
+  }
+
+  return config;
+}
+
+function createMainnetConfig(): NetworkUserConfig {
+  return {
+    accounts: {
+      mnemonic,
+    },
+    chainId: chainIds.mainnet,
+    url: `https://eth-mainnet.alchemyapi.io/v2/${alchemyApiKey}`,
+  };
+}
+
+const optimizerEnabled = process.env.DISABLE_OPTIMIZER ? false : true;
+
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   gasReporter: {
@@ -54,18 +96,23 @@ const config: HardhatUserConfig = {
     enabled: process.env.REPORT_GAS ? true : false,
     excludeContracts: [],
     src: "./contracts",
+    coinmarketcap: process.env.COINMARKETCAP_API_KEY,
+    outputFile: process.env.REPORT_GAS_OUTPUT,
   },
   networks: {
-    hardhat: {
+    mainnet: createMainnetConfig(),
+    hardhat: createHardhatConfig(),
+    goerli: createTestnetConfig("goerli"),
+    kovan: createTestnetConfig("kovan"),
+    rinkeby: createTestnetConfig("rinkeby"),
+    ropsten: createTestnetConfig("ropsten"),
+    localhost: {
       accounts: {
         mnemonic,
       },
       chainId: chainIds.hardhat,
+      gasMultiplier: 10,
     },
-    goerli: getChainConfig("goerli"),
-    kovan: getChainConfig("kovan"),
-    rinkeby: getChainConfig("rinkeby"),
-    ropsten: getChainConfig("ropsten"),
   },
   paths: {
     artifacts: "./artifacts",
@@ -74,24 +121,34 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   solidity: {
-    version: "0.8.9",
-    settings: {
-      metadata: {
-        // Not including the metadata hash
-        // https://github.com/paulrberg/solidity-template/issues/31
-        bytecodeHash: "none",
+    compilers: [
+      {
+        version: "0.8.5",
+        settings: {
+          metadata: {
+            // Not including the metadata hash
+            // https://github.com/paulrberg/solidity-template/issues/31
+            bytecodeHash: "none",
+          },
+          // You should disable the optimizer when debugging
+          // https://hardhat.org/hardhat-network/#solidity-optimizer-support
+          optimizer: {
+            enabled: optimizerEnabled,
+            runs: 999999,
+          },
+        },
       },
-      // Disable the optimizer when debugging
-      // https://hardhat.org/hardhat-network/#solidity-optimizer-support
-      optimizer: {
-        enabled: true,
-        runs: 800,
+      {
+        version: "0.4.12",
       },
-    },
+    ],
   },
   typechain: {
     outDir: "src/types",
     target: "ethers-v5",
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
   },
 };
 
