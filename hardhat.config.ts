@@ -3,6 +3,7 @@ import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-etherscan";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
+import "@openzeppelin/hardhat-upgrades";
 import "@nomicfoundation/hardhat-toolbox";
 
 import { resolve } from "path";
@@ -66,6 +67,7 @@ function createHardhatConfig(): HardhatNetworkUserConfig {
     accounts: {
       mnemonic,
     },
+    allowUnlimitedContractSize: true,
     chainId: chainIds.hardhat,
   };
 

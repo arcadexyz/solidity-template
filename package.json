@@ -95,6 +95,7 @@
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.7.1",
     "@openzeppelin/contracts-upgradeable": "^4.7.1",
+    "@openzeppelin/hardhat-upgrades": "^1.19.1",
     "ethereum-waffle": "^3.4.4"
   }
 }
