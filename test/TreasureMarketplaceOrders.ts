@@ -8,7 +8,7 @@ import type { MockWeth } from "../src/types/contracts/MockWETH.sol";
 import type { MockERC20, MockERC721, OrderRouter } from "../src/types/contracts";
 import type { TreasureMarketplace } from "../src/types/contracts/marketplaces/TreasureMarketplace";
 
-import { encodeBytesData } from "./utils/utils"
+import { encodeBytesDataTreasureV2 } from "./utils/utils"
 import { deploy } from "./utils/contracts";
 
 interface TestContext {
@@ -81,7 +81,7 @@ describe("Treasure Marketplace order routing tests", () => {
       expect(listing.paymentTokenAddress).to.equal(mockERC20.address)
     });
 
-    it("should buy a listing on the marketplace using the orderRouter", async () => {
+    it.only("should buy a listing on the marketplace using the orderRouter", async () => {
       const { admin, buyer, seller, mockWeth, mockERC20, mockERC721, treasureMarketplace, orderRouter } = ctx;
       // NFT to mint and sell
       let nftIndexToMint: number = 0;
@@ -94,11 +94,12 @@ describe("Treasure Marketplace order routing tests", () => {
               quantity: 1,
               maxPricePerItem: ethers.utils.parseEther('10'),
               paymentToken: mockERC20.address,
-              usingEth:false
+              usingEth: false
           },
       ];
       // encode data
-      const bytesData = encodeBytesData(buyItems);
+      const bytesData = encodeBytesDataTreasureV2(buyItems);
+      console.log(bytesData)
       // init marketplace
       await treasureMarketplace.connect(admin).setWeth(mockWeth.address);
       await treasureMarketplace.connect(admin).setTokenApprovalStatus(mockERC721.address, 1, mockERC20.address);
@@ -112,7 +113,7 @@ describe("Treasure Marketplace order routing tests", () => {
       await mockERC721.connect(seller).setApprovalForAll(treasureMarketplace.address, true);
       await treasureMarketplace.connect(seller).createListing(mockERC721.address, 0, 1, ethers.utils.parseEther('10'), 1689955938, mockERC20.address);
       let listing = await treasureMarketplace.listings(mockERC721.address, 0, seller.address);
-      expect(listing.paymentTokenAddress).to.equal(mockERC20.address)
+      expect(listing.paymentTokenAddress).to.equal(mockERC20.address);
       // buy with OrderRouter contract
       await orderRouter.connect(buyer).fulfillOrder(4, treasureMarketplace.address, bytesData);
     });

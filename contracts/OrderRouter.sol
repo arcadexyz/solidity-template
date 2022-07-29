@@ -168,19 +168,39 @@ contract OrderRouter is
      * @param data                  Data containing order paramters
      */
     function callTreasureV2(bytes calldata data, address targetAddress) internal {
-            /// Marketplace Interaction
-            (bool success, bytes memory returnData) = (address(targetAddress)).call(
-                data
-            );
+        // // Unpack items
+        // BuyItemParams memory orders = abi.decode(data, (BuyItemParams));
+        // // go through all orders and make calls to the Treasure marketplace
+        // for (uint256 i = 0; i < orders.length; i++) {
+        //
+        // // decode bytes
+        // address _nftAddress = orders.nftAddress;
+        // uint256 _tokenId = orders.tokenId;
+        // address _owner = orders.owner;
+        // uint64 _quantity = orders.quantity;
+        // uint128 _maxPricePerItem = orders.maxPricePerItem;
+        // address _paymentToken = orders.paymentToken;
+        // bool _usingEth = orders.usingEth;
 
-            console.log(success);
-            console.logBytes(returnData);
+        // get method selector
+        //bytes4 _method = getSelector("buyItems((address,uint256,address,uint64,uint128,address,bool)[])");
+        // a07076b2 --> buyItems
+        bytes4 _method = 0xa07076b2;
 
-            if(success) {
-                return;
-            } else {
-                revert OR_CallToMarketplaceFailed(data);
-            }
+        // abi.encodeWithSelector
+        bytes memory data = abi.encodeWithSelector(_method, data);
+
+        /// Marketplace Interaction
+        (bool success, bytes memory returnData) = address(targetAddress).call(data);
+
+        console.log(success);
+        console.logBytes(returnData);
+
+        if(success) {
+            return;
+        } else {
+            revert OR_CallToMarketplaceFailed(data);
+        }
     }
 
     /**

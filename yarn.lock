@@ -1722,6 +1722,7 @@ __metadata:
     "@openzeppelin/contracts": ^4.7.1
     "@openzeppelin/contracts-upgradeable": ^4.7.1
     "@openzeppelin/hardhat-upgrades": ^1.19.1
+    "@rari-capital/solmate": ^6.4.0
     "@trivago/prettier-plugin-sort-imports": ^3.3.0
     "@typechain/ethers-v5": ^10.1.0
     "@typechain/hardhat": ^6.1.2
@@ -1975,6 +1976,13 @@ __metadata:
     proper-lockfile: ^4.1.1
     solidity-ast: ^0.4.15
   checksum: 21d01a89ae0a25fbb3b3e4839aae6976e1b5af90e133abd6b14f7e1aa35513ef1c3816b1dbe04012814c4b1e0175dcd1313143767d705d8d4add0dea6a8312b1
+  languageName: node
+  linkType: hard
+
+"@rari-capital/solmate@npm:^6.4.0":
+  version: 6.4.0
+  resolution: "@rari-capital/solmate@npm:6.4.0"
+  checksum: 27c656f72ce9b51ab6ec25165ae5426f74af934352eca062eb8419c4cf7fc4c6debf45487afd6bee7860e38b7c33d3a6d353a0d4c176c961c9c8125d30cf52a4
   languageName: node
   linkType: hard
 
