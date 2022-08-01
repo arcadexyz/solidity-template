@@ -27,7 +27,7 @@ import type {
   CriteriaResolver,
   OfferItem,
   OrderComponents,
-} from "./types";
+} from "../types/types";
 
 const deployConstants = require("./SeaportCREATE2Constants");
 const { orderType } = require("./eip-712-types/order");

@@ -1,13 +1,13 @@
 import { ethers } from "ethers";
 
-import { randomBN } from "./SeaportEncoding";
+import { randomBN } from "../SeaportEncoding";
 
 import type {
   AdvancedOrder,
   CriteriaResolver,
   Fulfillment,
   Order,
-} from "../types/types";
+} from "../../types/types";
 
 export const VERSION = `1.1${process.env.REFERENCE ? "-reference" : ""}`;
 

@@ -10,10 +10,10 @@ import {
 } from "../SeaportEncoding";
 
 import type {
-  MockERC1155 as TestERC1155,
-  MockERC20 as TestERC20,
-  MockERC721 as TestERC721,
-} from "../../../src/types/contracts";
+  TestERC1155,
+  TestERC20,
+  TestERC721,
+} from "../../../src/types/contracts/";
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import type { BigNumber, BigNumberish, Contract, Wallet } from "ethers";
 

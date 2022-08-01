@@ -1,5 +1,5 @@
 import { ethers } from "hardhat";
-import type { BuyItem } from "./types";
+import type { BuyItem } from "../types/types";
 
 export const encodeBytesDataTreasureV2 = (items: BuyItem[]): string => {
     const types = ["tuple(address nftAddress,uint256 tokenId,address owner,uint64 quantity,uint128 maxPricePerItem,address paymentToken,bool usingEth)[]"];

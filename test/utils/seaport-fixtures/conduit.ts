@@ -9,9 +9,11 @@ import { whileImpersonating } from "../Impersonate";
 
 import type {
   ConduitControllerInterface,
-  Conduit__factory, // not sure where this is coming from?
   ImmutableCreate2FactoryInterface,
 } from "../../../src/types/contracts/marketplaces/SeaportV2";
+import type {
+  Conduit__factory, // not sure where this is coming from?
+} from "../../../src/types/factories/contracts/marketplaces/SeaportV2";
 import type { Wallet } from "ethers";
 
 const deployConstants = require("../SeaportCREATE2Constants");

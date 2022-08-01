@@ -6,7 +6,7 @@ import { ZoneInterface } from "./ZoneInterface.sol";
 import {
     AdvancedOrder,
     CriteriaResolver
-} from "../lib/ConsiderationStructs.sol";
+} from "../../lib/ConsiderationStructs.sol";
 
 contract TestZone is ZoneInterface {
     function isValidOrder(

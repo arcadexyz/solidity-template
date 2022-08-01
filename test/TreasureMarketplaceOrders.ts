@@ -3,7 +3,7 @@ import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signe
 import { expect } from "chai";
 const { loadFixture } = waffle;
 
-import type { BuyItem } from "./utils/types";
+import type { BuyItem } from "./types/types";
 import type { MockWeth } from "../src/types/contracts/MockWETH.sol";
 import type { MockERC20, MockERC721, OrderRouter } from "../src/types/contracts";
 import type { TreasureMarketplace } from "../src/types/contracts/marketplaces/TreasureMarketplace";
@@ -71,7 +71,7 @@ describe("Treasure Marketplace order routing tests", () => {
       expect(await treasureMarketplace.connect(admin).getPaymentTokenForCollection(mockERC721.address)).to.equal(mockERC20.address);
       // setup more context
       await mockERC20.mint(buyer.address, ethers.utils.parseEther('100'));
-      await mockERC721.safeMint(seller.address, nftIndexToMint);
+      await mockERC721.mint(seller.address, nftIndexToMint);
       expect(await mockERC20.balanceOf(buyer.address)).to.equal(ethers.utils.parseEther('100'));
       expect(await mockERC721.balanceOf(seller.address)).to.equal(1);
       // create listing
@@ -81,7 +81,7 @@ describe("Treasure Marketplace order routing tests", () => {
       expect(listing.paymentTokenAddress).to.equal(mockERC20.address)
     });
 
-    it.only("should buy a listing on the marketplace using the orderRouter", async () => {
+    it("should buy a listing on the marketplace using the orderRouter", async () => {
       const { admin, buyer, seller, mockWeth, mockERC20, mockERC721, treasureMarketplace, orderRouter } = ctx;
       // NFT to mint and sell
       let nftIndexToMint: number = 0;
@@ -99,14 +99,14 @@ describe("Treasure Marketplace order routing tests", () => {
       ];
       // encode data
       const bytesData = encodeBytesDataTreasureV2(buyItems);
-      console.log(bytesData)
+      //console.log(bytesData)
       // init marketplace
       await treasureMarketplace.connect(admin).setWeth(mockWeth.address);
       await treasureMarketplace.connect(admin).setTokenApprovalStatus(mockERC721.address, 1, mockERC20.address);
       expect(await treasureMarketplace.connect(admin).getPaymentTokenForCollection(mockERC721.address)).to.equal(mockERC20.address);
       // setup more context
       await mockERC20.mint(buyer.address, ethers.utils.parseEther('100'));
-      await mockERC721.safeMint(seller.address, nftIndexToMint);
+      await mockERC721.mint(seller.address, nftIndexToMint);
       expect(await mockERC20.balanceOf(buyer.address)).to.equal(ethers.utils.parseEther('100'));
       expect(await mockERC721.balanceOf(seller.address)).to.equal(1);
       // create listing

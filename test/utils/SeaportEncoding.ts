@@ -11,7 +11,7 @@ import type {
   OfferItem,
   Order,
   OrderComponents,
-} from "./types";
+} from "../types/types";
 import type { BigNumberish, ContractTransaction } from "ethers";
 
 const SeededRNG = require("./seeded-rng");

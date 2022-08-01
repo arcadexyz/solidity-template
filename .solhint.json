@@ -2,7 +2,10 @@
   "extends": "solhint:recommended",
   "plugins": ["prettier"],
   "rules": {
-    "code-complexity": ["error", 8],
+    "no-inline-assembly": "off",
+    "avoid-low-level-calls": "off",
+    "function-max-lines": "off",
+    "code-complexity": ["warn", 15],
     "compiler-version": ["error", ">=0.8.4"],
     "func-visibility": ["error", { "ignoreConstructors": true }],
     "max-line-length": ["error", 120],

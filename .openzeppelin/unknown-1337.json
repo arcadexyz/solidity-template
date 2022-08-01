@@ -147,7 +147,7 @@
             "label": "listings",
             "offset": 0,
             "slot": "304",
-            "type": "t_mapping(t_address,t_mapping(t_uint256,t_mapping(t_address,t_struct(ListingOrBid)7112_storage)))",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_mapping(t_address,t_struct(ListingOrBid)7216_storage)))",
             "contract": "TreasureMarketplace",
             "src": "contracts/marketplaces/TreasureMarketplace.sol:74"
           },
@@ -155,7 +155,7 @@
             "label": "tokenApprovals",
             "offset": 0,
             "slot": "305",
-            "type": "t_mapping(t_address,t_enum(TokenApprovalStatus)7123)",
+            "type": "t_mapping(t_address,t_enum(TokenApprovalStatus)7227)",
             "contract": "TreasureMarketplace",
             "src": "contracts/marketplaces/TreasureMarketplace.sol:77"
           },
@@ -171,7 +171,7 @@
             "label": "collectionToCollectionOwnerFee",
             "offset": 0,
             "slot": "307",
-            "type": "t_mapping(t_address,t_struct(CollectionOwnerFee)7119_storage)",
+            "type": "t_mapping(t_address,t_struct(CollectionOwnerFee)7223_storage)",
             "contract": "TreasureMarketplace",
             "src": "contracts/marketplaces/TreasureMarketplace.sol:83"
           },
@@ -195,7 +195,7 @@
             "label": "tokenBids",
             "offset": 0,
             "slot": "310",
-            "type": "t_mapping(t_address,t_mapping(t_uint256,t_mapping(t_address,t_struct(ListingOrBid)7112_storage)))",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_mapping(t_address,t_struct(ListingOrBid)7216_storage)))",
             "contract": "TreasureMarketplace",
             "src": "contracts/marketplaces/TreasureMarketplace.sol:92"
           },
@@ -203,7 +203,7 @@
             "label": "collectionBids",
             "offset": 0,
             "slot": "311",
-            "type": "t_mapping(t_address,t_mapping(t_address,t_struct(ListingOrBid)7112_storage))",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_struct(ListingOrBid)7216_storage))",
             "contract": "TreasureMarketplace",
             "src": "contracts/marketplaces/TreasureMarketplace.sol:95"
           },
@@ -245,7 +245,7 @@
             "label": "contract IERC20Upgradeable",
             "numberOfBytes": "20"
           },
-          "t_enum(TokenApprovalStatus)7123": {
+          "t_enum(TokenApprovalStatus)7227": {
             "label": "enum TreasureMarketplace.TokenApprovalStatus",
             "members": [
               "NOT_APPROVED",
@@ -262,23 +262,23 @@
             "label": "mapping(address => bool)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_enum(TokenApprovalStatus)7123)": {
+          "t_mapping(t_address,t_enum(TokenApprovalStatus)7227)": {
             "label": "mapping(address => enum TreasureMarketplace.TokenApprovalStatus)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_mapping(t_address,t_struct(ListingOrBid)7112_storage))": {
+          "t_mapping(t_address,t_mapping(t_address,t_struct(ListingOrBid)7216_storage))": {
             "label": "mapping(address => mapping(address => struct TreasureMarketplace.ListingOrBid))",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_mapping(t_uint256,t_mapping(t_address,t_struct(ListingOrBid)7112_storage)))": {
+          "t_mapping(t_address,t_mapping(t_uint256,t_mapping(t_address,t_struct(ListingOrBid)7216_storage)))": {
             "label": "mapping(address => mapping(uint256 => mapping(address => struct TreasureMarketplace.ListingOrBid)))",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_struct(CollectionOwnerFee)7119_storage)": {
+          "t_mapping(t_address,t_struct(CollectionOwnerFee)7223_storage)": {
             "label": "mapping(address => struct TreasureMarketplace.CollectionOwnerFee)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_struct(ListingOrBid)7112_storage)": {
+          "t_mapping(t_address,t_struct(ListingOrBid)7216_storage)": {
             "label": "mapping(address => struct TreasureMarketplace.ListingOrBid)",
             "numberOfBytes": "32"
           },
@@ -294,7 +294,7 @@
             "label": "mapping(bytes32 => uint256)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_mapping(t_address,t_struct(ListingOrBid)7112_storage))": {
+          "t_mapping(t_uint256,t_mapping(t_address,t_struct(ListingOrBid)7216_storage))": {
             "label": "mapping(uint256 => mapping(address => struct TreasureMarketplace.ListingOrBid))",
             "numberOfBytes": "32"
           },
@@ -310,7 +310,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(CollectionOwnerFee)7119_storage": {
+          "t_struct(CollectionOwnerFee)7223_storage": {
             "label": "struct TreasureMarketplace.CollectionOwnerFee",
             "members": [
               {
@@ -328,7 +328,7 @@
             ],
             "numberOfBytes": "32"
           },
-          "t_struct(ListingOrBid)7112_storage": {
+          "t_struct(ListingOrBid)7216_storage": {
             "label": "struct TreasureMarketplace.ListingOrBid",
             "members": [
               {

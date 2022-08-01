@@ -10,13 +10,13 @@ import { create2FactoryFixture } from "./create2";
 import { marketplaceFixture } from "../SeaportMarketplace";
 import { tokensFixture } from "./tokens";
 
-import type { Reenterer } from "../../../src/types/contracts/marketplaces/SeaportV2/test";
+import type { Reenterer } from "../../../src/types/contracts/marketplaces/SeaportV2/test/Reenterer";
 import type {
   AdvancedOrder,
   ConsiderationItem,
   CriteriaResolver,
   OfferItem,
-} from "../types";
+} from "../../types/types";
 import type {
   BigNumber,
   BigNumberish,

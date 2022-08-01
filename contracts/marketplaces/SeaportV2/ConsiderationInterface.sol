@@ -11,7 +11,7 @@ import {
     AdvancedOrder,
     OrderStatus,
     CriteriaResolver
-} from "./lib/ConsiderationStructs.sol";
+} from "../lib/ConsiderationStructs.sol";
 
 /**
  * @title ConsiderationInterface
