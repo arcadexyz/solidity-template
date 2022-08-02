@@ -11,6 +11,7 @@ import { marketplaceFixture } from "../SeaportMarketplace";
 import { tokensFixture } from "./tokens";
 
 import type { Reenterer } from "../../../src/types/contracts/marketplaces/SeaportV2/test/Reenterer";
+import type { OrderRouter } from "../../../src/types/contracts/";
 import type {
   AdvancedOrder,
   ConsiderationItem,
@@ -38,6 +39,7 @@ const { provider } = ethers;
 export const seaportFixture = async (owner: Wallet) => {
   const EIP1271WalletFactory = await ethers.getContractFactory("EIP1271Wallet");
   const reenterer = await deployContract<Reenterer>("Reenterer", owner);
+  const orderRouter = await deployContract<OrderRouter>("OrderRouter", owner);
   const { chainId } = await provider.getNetwork();
   const create2Factory = await create2FactoryFixture(owner);
   const {
@@ -809,6 +811,7 @@ export const seaportFixture = async (owner: Wallet) => {
   return {
     EIP1271WalletFactory,
     reenterer,
+    orderRouter,
     chainId,
     conduitController,
     conduitImplementation,
