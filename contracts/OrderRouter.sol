@@ -14,6 +14,7 @@ import "./IOrderRouter.sol";
 
 import "./marketplaces/TreasureMarketplace.sol";
 import "./marketplaces/SeaportInterface.sol";
+import "./marketplaces/lib/ConsiderationStructs.sol";
 import "./OrderRouterLibrary.sol";
 
 import {
@@ -71,7 +72,7 @@ contract OrderRouter is
         OrderRouterLibrary.Protocol protocol,
         address targetAddress,
         bytes calldata data
-    ) external override returns (bool) {
+    ) public override returns (bool) {
         /// Checks
         // validate marketplace address
         if(targetAddress == address(0)) revert OR_ZeroAddress();
@@ -114,30 +115,55 @@ contract OrderRouter is
      *
      * @param data                  Data containing order paramters
      */
-    function callSeaportV2(bytes calldata data, address targetAddress) internal {
+    function callSeaportV2(bytes memory data, address targetAddress) internal {
+        console.logBytes(data);
+
+        BasicOrderParameters memory order = abi.decode(data, (BasicOrderParameters));
+
         // bytes4 _method = getSelector(
-        //     "fulfillBasicOrder(string considerationToken,uint considerationIdentifier,uint considerationAmount,string offerer,string zone,string offerToken,uint offerIdentifier,uint offerAmount,uint basicOrderType,uint startTime,uint endTime,string zoneHash,string salt,string offererConduitKey,string fulfillerConduitKey,uint totalOriginalAdditionalRecipients,tuple(uint amount,string recipient)[] additionalRecipients,string signature)"
+        //     "fulfillBasicOrder((address,uint256,uint256,address,address,address,uint256,uint256,uint8,uint256,uint256,bytes32,uint256,bytes32,bytes32,uint256,(uint256,address)[],bytes))"
         // );
         // console.logBytes4(_method);
-        console.logBytes(data);
-        bytes4 _method = 0xfb0f3ee1; // from etherscan https://etherscan.io/address/0x00000000006c3852cbef3e08e8df289169ede581
-        // abi.encodeWithSelector
-        bytes memory data1 = abi.encodeWithSelector(_method, data);
-        console.log("---------");
+        bytes4 _method = 0xfb0f3ee1;  // 0xfb0f3ee1 // name: 0x06fdde03
+
+        // abi.encodeWithSignature
+        // bytes memory data1 = abi.encodeWithSignature(
+        //     "fulfillBasicOrder((address,uint256,uint256,address,address,address,uint256,uint256,uint8,uint256,uint256,bytes32,uint256,bytes32,bytes32,uint256,(uint256,address)[],bytes))",
+        //      order.considerationToken,
+        //      order.considerationIdentifier,
+        //      order.considerationAmount,
+        //      order.offerer,
+        //      order.zone,
+        //      order.offerToken,
+        //      order.offerIdentifier,
+        //      order.offerAmount,
+        //      order.basicOrderType,
+        //      order.startTime,
+        //      order.endTime,
+        //      order.zoneHash,
+        //      order.salt,
+        //      order.offererConduitKey,
+        //      order.fulfillerConduitKey,
+        //      order.totalOriginalAdditionalRecipients,
+        //      order.additionalRecipients,
+        //      order.signature
+        //  );
+         // abi.encodeWithSelector
+         bytes memory data1 = abi.encodeWithSelector(
+              _method,
+              order
+          );
         console.logBytes(data1);
         /// Marketplace Interaction
-        (bool success, bytes memory returnData) = (address(targetAddress)).call{value: msg.value}(
-            data1
-        );
+        (bool success, bytes memory returnData) = (address(targetAddress)).call{value: msg.value}(data1);
 
         console.log("SUCCESS: ", success);
-        console.log("RETURN DATA:");
         console.logBytes(returnData);
 
         if(success) {
             return;
         } else {
-            revert OR_CallToMarketplaceFailed(data1);
+            revert OR_CallToMarketplaceFailed(order);
         }
     }
 
@@ -210,7 +236,7 @@ contract OrderRouter is
         if(success) {
             return;
         } else {
-            revert OR_CallToMarketplaceFailed(data);
+            console.log("revert");
         }
     }
 

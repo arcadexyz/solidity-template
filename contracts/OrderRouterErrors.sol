@@ -3,6 +3,7 @@
 pragma solidity ^0.8.11;
 
 import "./OrderRouterLibrary.sol";
+import "./marketplaces/lib/ConsiderationStructs.sol";
 
 /**
  * @title OrderRouterErrors
@@ -22,4 +23,4 @@ error OR_ZeroAddress();
 error  OR_MarketplaceNotWhitelisted();
 
 /// @notice Call to the specified marketplace has failed.
-error OR_CallToMarketplaceFailed(bytes data);
+error OR_CallToMarketplaceFailed(BasicOrderParameters);

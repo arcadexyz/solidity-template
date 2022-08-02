@@ -1437,7 +1437,12 @@ describe(`Basic buy now or accept offer flows (Seaport v${VERSION})`, function (
         const tokenAmount = minRandom(100);
         await mintAndApproveERC20(
           buyer,
-          marketplaceContract.address,
+          orderRouter.address,
+          tokenAmount
+        );
+        await mintAndApproveERC20(
+          buyer,
+          orderRouter.address,
           tokenAmount
         );
 

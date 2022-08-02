@@ -17,9 +17,8 @@ export const encodeBytesDataTreasureV2 = (items: BuyItem[]): string => {
 };
 
 export const encodeBasicOrderSeaportV2 = (item: BasicOrderParameters): string => {
-    const types = ["tuple(string considerationToken,uint considerationIdentifier,uint considerationAmount,string offerer,string zone,string offerToken,uint offerIdentifier,uint offerAmount,uint basicOrderType,uint startTime,uint endTime,string zoneHash,string salt,string offererConduitKey,string fulfillerConduitKey,uint totalOriginalAdditionalRecipients,tuple(uint amount,string recipient)[] additionalRecipients,string signature)"];
+    const types = ["tuple(address,uint256,uint256,address,address,address,uint256,uint256,uint8,uint256,uint256,bytes32,uint256,bytes32,bytes32,uint256,tuple(uint256,address)[],bytes)"];
     const additionalRecipientsArray = item.additionalRecipients.map(e => [e.amount, e.recipient]);
-    console.log(additionalRecipientsArray);
     const values = [
         item.considerationToken,
         item.considerationIdentifier,
