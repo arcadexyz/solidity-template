@@ -117,17 +117,17 @@ contract OrderRouter is
      */
     function callSeaportV2(bytes memory data, address targetAddress) internal {
         console.logBytes(data);
-
         BasicOrderParameters memory order = abi.decode(data, (BasicOrderParameters));
 
-        // bytes4 _method = getSelector(
-        //     "fulfillBasicOrder((address,uint256,uint256,address,address,address,uint256,uint256,uint8,uint256,uint256,bytes32,uint256,bytes32,bytes32,uint256,(uint256,address)[],bytes))"
-        // );
-        // console.logBytes4(_method);
-        bytes4 _method = 0xfb0f3ee1;  // 0xfb0f3ee1 // name: 0x06fdde03
+        // *** Get Function Selector
+        bytes4 _method = getSelector(
+            "fulfillBasicOrder((address,uint256,uint256,address,address,address,uint256,uint256,uint8,uint256,uint256,bytes32,uint256,bytes32,bytes32,uint256,(uint256,address)[],bytes))"
+        );
+        console.logBytes4(_method);
+        //bytes4 _method = 0xfb0f3ee1;  // 0xfb0f3ee1 // name: 0x06fdde03
 
-        // abi.encodeWithSignature
-        // bytes memory data1 = abi.encodeWithSignature(
+        // *** abi.encodeWithSignature
+        // bytes memory encodedData = abi.encodeWithSignature(
         //     "fulfillBasicOrder((address,uint256,uint256,address,address,address,uint256,uint256,uint8,uint256,uint256,bytes32,uint256,bytes32,bytes32,uint256,(uint256,address)[],bytes))",
         //      order.considerationToken,
         //      order.considerationIdentifier,
@@ -148,14 +148,15 @@ contract OrderRouter is
         //      order.additionalRecipients,
         //      order.signature
         //  );
-         // abi.encodeWithSelector
-         bytes memory data1 = abi.encodeWithSelector(
+
+         // ***abi.encodeWithSelector
+         bytes memory encodedData = abi.encodeWithSelector(
               _method,
               order
-          );
-        console.logBytes(data1);
+         );
+        console.logBytes(encodedData);
         /// Marketplace Interaction
-        (bool success, bytes memory returnData) = (address(targetAddress)).call{value: msg.value}(data1);
+        (bool success, bytes memory returnData) = (address(targetAddress)).call{value: msg.value}(encodedData);
 
         console.log("SUCCESS: ", success);
         console.logBytes(returnData);
@@ -310,6 +311,11 @@ contract OrderRouter is
 
         return data;
     }
+
+    /**
+     * @notice triggered when contract recieves ERC721 after making a call to contract.
+     */
+    function onERC721Received() external {}
 
     // /**
     //  * @notice Withdraw entire balance of a given ERC20 token from the contract.
