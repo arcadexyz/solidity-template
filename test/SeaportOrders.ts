@@ -1468,7 +1468,7 @@ describe(`Basic buy now or accept offer flows (Seaport v${VERSION})`, function (
         console.log(basicOrderParameters);
 
         const data = encodeBasicOrderSeaportV2(basicOrderParameters);
-        console.log(data);
+        //console.log(data);
 
         await withBalanceChecks([order], 0, undefined, async () => {
           const tx = orderRouter
@@ -1529,7 +1529,7 @@ describe(`Basic buy now or accept offer flows (Seaport v${VERSION})`, function (
         await withBalanceChecks([order], 0, undefined, async () => {
           const tx = marketplaceContract
             .connect(buyer)
-            .fulfillBasicOrder(basicOrderParameters);
+            .fulfillBasicOrder(basicOrderParameters, {value: ethers.utils.parseEther('1')});
           const receipt = await (await tx).wait();
           await checkExpectedEvents(tx, receipt, [
             {

@@ -115,18 +115,29 @@ contract OrderRouter is
      * @param data                  Data containing order paramters
      */
     function callSeaportV2(bytes calldata data, address targetAddress) internal {
+        // bytes4 _method = getSelector(
+        //     "fulfillBasicOrder(string considerationToken,uint considerationIdentifier,uint considerationAmount,string offerer,string zone,string offerToken,uint offerIdentifier,uint offerAmount,uint basicOrderType,uint startTime,uint endTime,string zoneHash,string salt,string offererConduitKey,string fulfillerConduitKey,uint totalOriginalAdditionalRecipients,tuple(uint amount,string recipient)[] additionalRecipients,string signature)"
+        // );
+        // console.logBytes4(_method);
+        console.logBytes(data);
+        bytes4 _method = 0xfb0f3ee1; // from etherscan https://etherscan.io/address/0x00000000006c3852cbef3e08e8df289169ede581
+        // abi.encodeWithSelector
+        bytes memory data1 = abi.encodeWithSelector(_method, data);
+        console.log("---------");
+        console.logBytes(data1);
         /// Marketplace Interaction
-        (bool success, bytes memory returnData) = (address(targetAddress)).call(
-            data
+        (bool success, bytes memory returnData) = (address(targetAddress)).call{value: msg.value}(
+            data1
         );
 
-        console.log(success);
+        console.log("SUCCESS: ", success);
+        console.log("RETURN DATA:");
         console.logBytes(returnData);
 
         if(success) {
             return;
         } else {
-            revert OR_CallToMarketplaceFailed(data);
+            revert OR_CallToMarketplaceFailed(data1);
         }
     }
 
